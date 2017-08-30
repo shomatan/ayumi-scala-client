@@ -6,7 +6,7 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.12.2"
 )
 
-lazy val root = (project in file("."))
+lazy val `ayumi_client` = (project in file("."))
   .aggregate(model)
   .dependsOn(model)
   .settings(
