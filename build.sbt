@@ -20,6 +20,12 @@ resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
 resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/"
 
+val circeVersion = "0.8.0"
+
 libraryDependencies ++= Seq(
-  "net.databinder.dispatch" %% "dispatch-core"  % "0.13.1"
+  "net.databinder.dispatch" %% "dispatch-core"          % "0.13.1",
+  "io.circe"                %% "circe-core"             % circeVersion,
+  "io.circe"                %% "circe-generic"          % circeVersion,
+  "io.circe"                %% "circe-parser"           % circeVersion,
+  "io.circe"                %% "circe-generic-extras"   % circeVersion
 )
