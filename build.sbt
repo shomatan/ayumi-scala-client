@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "io.circe"                %% "circe-generic"          % circeVersion,
   "io.circe"                %% "circe-parser"           % circeVersion,
   "io.circe"                %% "circe-generic-extras"   % circeVersion,
+  "io.circe"                %% "circe-java8"            % circeVersion,
   "org.scalatest"           % "scalatest_2.12"          % "3.0.4"         % "test",
   "org.mockito"             % "mockito-core"            % "2.7.22"        % "test"
 )
