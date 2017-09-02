@@ -1,6 +1,6 @@
 package me.shoma.ayumi.client
 
-import me.shoma.ayumi.model.{Category, Post, Tag}
+import me.shoma.ayumi.model.{Category, CustomField, Post, Tag}
 import me.shoma.ayumi.client.Decoders._
 
 trait AyumiAPI {
@@ -20,4 +20,9 @@ class AyumiCategories(endpoint: String) extends AyumiAPI {
 class AyumiTags(endpoint: String) extends AyumiAPI {
 
   def listTags() = client.get[List[Tag]](s"$endpoint/tags")
+}
+
+class AyumiCustomField(endpoint: String) extends AyumiAPI {
+
+  def listCustomFields(postId: Long) = client.get[List[CustomField]](s"$endpoint/customFields/$postId")
 }

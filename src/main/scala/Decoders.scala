@@ -1,5 +1,6 @@
 package me.shoma.ayumi.client
 
+import io.circe.Decoder.Result
 import io.circe._
 import io.circe.generic.auto._
 import me.shoma.ayumi.model.{Category, CustomField, Tag}
@@ -21,10 +22,16 @@ object Decoders {
   }
 
   implicit val decodeCustomField: Decoder[CustomField] = Decoder.instance { c =>
+
+    val aa = c.downField("value") match {
+      case a if a.as[Int].isRight =>  a.as[Int]
+      case a if a.as[Boolean].isRight => a.as[Boolean]
+      case a => a.as[String]
+    }
     for {
       postId <- c.downField("postId").as[Long]
       key <- c.downField("key").as[String]
-      value <- c.downField("value").as[Any]
+      value <- aa
     } yield CustomField(postId = postId, key = key, value = value)
   }
 }
