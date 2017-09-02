@@ -23,7 +23,7 @@ class AyumiTags(endpoint: String) extends AyumiAPI {
   def listTags() = client.get[List[Tag]](s"$endpoint/tags")
 }
 
-class AyumiCustomField(endpoint: String) extends AyumiAPI {
+class AyumiCustomFields(endpoint: String) extends AyumiAPI {
 
   def listCustomFields(postId: Long) = client.get[List[CustomField]](s"$endpoint/customFields/$postId")
 }
