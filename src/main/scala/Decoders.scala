@@ -1,11 +1,31 @@
 package me.shoma.ayumi.client
 
+import java.time.ZonedDateTime
+
 import io.circe.Decoder.Result
 import io.circe._
 import io.circe.generic.auto._
-import me.shoma.ayumi.model.{Category, CustomField, Tag}
+import io.circe.parser._
+import io.circe.syntax._
+import io.circe.java8.time._
+import me.shoma.ayumi.model.{Category, CustomField, Post, Tag}
 
 object Decoders {
+
+  implicit val decodePost: Decoder[Post] = Decoder.instance { c =>
+    for {
+      id <- c.downField("id").as[Long]
+      title <- c.downField("title").as[String]
+      content <- c.downField("content").as[String]
+      categories <- c.downField("categories").as[Seq[Category]]
+      tags <- c.downField("tags").as[Seq[Tag]]
+      customFields <- c.downField("customFields").as[Seq[CustomField]]
+      createdAt <- c.downField("createdAt").as[ZonedDateTime]
+      updatedAt <- c.downField("updatedAt").as[ZonedDateTime]
+      postedAt <- c.downField("postedAt").as[ZonedDateTime]
+      deletedAt <- c.downField("deletedAt").as[Option[Long]]
+    } yield Post(id, title, content, categories, tags, customFields, createdAt, updatedAt, postedAt, deletedAt)
+  }
 
   implicit val decodeCategory: Decoder[Category] = Decoder.instance { c =>
     for {
