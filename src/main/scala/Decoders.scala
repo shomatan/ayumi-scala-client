@@ -35,6 +35,12 @@ object Decoders {
     } yield Post(id, title, content, categories, tags, customFields, createdAt, updatedAt, postedAt, deletedAt)
   }
 
+  implicit val decodeCategories: Decoder[CategoryResult] = Decoder.instance { c =>
+    for {
+      categories <- c.downField("categories").as[List[Category]]
+    } yield CategoryResult(categories)
+  }
+
   implicit val decodeCategory: Decoder[Category] = Decoder.instance { c =>
     for {
       id <- c.downField("id").as[Option[Long]]
@@ -42,11 +48,23 @@ object Decoders {
     } yield Category(id = id, name = name)
   }
 
+  implicit val decodeTags: Decoder[TagResult] = Decoder.instance { c =>
+    for {
+      tags <- c.downField("tags").as[List[Tag]]
+    } yield TagResult(tags)
+  }
+
   implicit val decodeTag: Decoder[Tag] = Decoder.instance { c =>
     for {
       id <- c.downField("id").as[Option[Long]]
       name <- c.downField("name").as[String]
     } yield Tag(id = id, name = name)
+  }
+
+  implicit val decodeCustomFields: Decoder[CustomFieldResult] = Decoder.instance { c =>
+    for {
+      customFields <- c.downField("customFields").as[List[CustomField]]
+    } yield CustomFieldResult(customFields)
   }
 
   implicit val decodeCustomField: Decoder[CustomField] = Decoder.instance { c =>

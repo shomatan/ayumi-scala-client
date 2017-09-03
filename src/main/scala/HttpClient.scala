@@ -34,10 +34,14 @@ class HttpClient {
       .setContentType("application/json", Charset.defaultCharset())
     Http.default(request).either.map {
       case Right(response) => {
-        println(response.getResponseBody)
-        decode[A](response.getResponseBody) match {
-          case Right(json) => Right(new AyumiResult(json))
-          case Left(error) => Left(JsonParsingException(error.getMessage, response.getResponseBody))
+        response.getStatusCode match {
+          case 200 => {
+            decode[A](response.getResponseBody) match {
+              case Right(json) => Right(new AyumiResult(json))
+              case Left(error) => Left(JsonParsingException(error.getMessage, response.getResponseBody))
+            }
+          }
+          case _ => Left(UnexpectedException(response.getResponseBody))
         }
       }
       case Left(error) => Left(UnexpectedException(error.getMessage))

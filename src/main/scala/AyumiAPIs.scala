@@ -1,6 +1,7 @@
 package me.shoma.ayumi.client
 
 import me.shoma.ayumi.model.{Category, CustomField, Post, Tag}
+import me.shoma.ayumi.client.Encoders._
 import me.shoma.ayumi.client.Decoders._
 
 trait AyumiAPI {
@@ -11,19 +12,21 @@ class AyumiPosts(endpoint: String) extends AyumiAPI {
 
   def listPosts(page: Int = 1, perPage: Int = 10) =
     client.get[PostResult](s"$endpoint/posts?page=$page&perPage=$perPage")
+
+  def save(post: Post) = client.post[Post](s"$endpoint/posts", post)
 }
 
 class AyumiCategories(endpoint: String) extends AyumiAPI {
 
-  def listCategories() = client.get[List[Category]](s"$endpoint/categories")
+  def listCategories() = client.get[CategoryResult](s"$endpoint/categories")
 }
 
 class AyumiTags(endpoint: String) extends AyumiAPI {
 
-  def listTags() = client.get[List[Tag]](s"$endpoint/tags")
+  def listTags() = client.get[TagResult](s"$endpoint/tags")
 }
 
 class AyumiCustomFields(endpoint: String) extends AyumiAPI {
 
-  def listCustomFields(postId: Long) = client.get[List[CustomField]](s"$endpoint/customFields/$postId")
+  def listCustomFields(postId: Long) = client.get[CustomFieldResult](s"$endpoint/customFields/$postId")
 }
