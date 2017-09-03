@@ -13,6 +13,8 @@ class AyumiPosts(endpoint: String) extends AyumiAPI {
   def listPosts(page: Int = 1, perPage: Int = 10) =
     client.get[PostResult](s"$endpoint/posts?page=$page&perPage=$perPage")
 
+  def get(postId: Long) = client.get[Post](s"$endpoint/posts/$postId")
+
   def save(post: Post) = client.post[Post](s"$endpoint/posts", post)
 }
 

@@ -18,7 +18,7 @@ class HttpClient {
   def get[A](endpoint: String)(implicit D: Decoder[A]): Future[AyumiResponse[A]] = {
     Http.default(url(endpoint).GET).either.map {
       case Right(response) => {
-        decode[A](response.getResponseBody) match {
+        decode[A](response.getResponseBody(Charset.forName("UTF-8"))) match {
           case Right(json) => Right(new AyumiResult(json))
           case Left(error) => Left(JsonParsingException(error.getMessage, response.getResponseBody))
         }
@@ -31,7 +31,7 @@ class HttpClient {
     val request = url(endpoint)
       .POST
       .setBody(data.asJson.noSpaces)
-      .setContentType("application/json", Charset.defaultCharset())
+      .setContentType("application/json", Charset.forName("UTF-8"))
     Http.default(request).either.map {
       case Right(response) => {
         response.getStatusCode match {
