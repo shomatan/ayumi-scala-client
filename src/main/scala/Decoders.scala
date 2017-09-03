@@ -12,6 +12,14 @@ import me.shoma.ayumi.model.{Category, CustomField, Post, Tag}
 
 object Decoders {
 
+  implicit val decodePosts: Decoder[PostResult] = Decoder.instance { c =>
+    for {
+      posts <- c.downField("posts").as[List[Post]]
+      page <- c.downField("page").as[Int]
+      perPage <- c.downField("perPage").as[Int]
+    } yield PostResult(posts, page, perPage)
+  }
+
   implicit val decodePost: Decoder[Post] = Decoder.instance { c =>
     for {
       id <- c.downField("id").as[Long]

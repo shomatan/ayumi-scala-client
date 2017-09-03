@@ -10,7 +10,7 @@ trait AyumiAPI {
 class AyumiPosts(endpoint: String) extends AyumiAPI {
 
   def listPosts(page: Int = 1, perPage: Int = 10) =
-    client.get[List[Post]](s"$endpoint/posts?page=$page&perPage=$perPage")
+    client.get[PostResult](s"$endpoint/posts?page=$page&perPage=$perPage")
 }
 
 class AyumiCategories(endpoint: String) extends AyumiAPI {
